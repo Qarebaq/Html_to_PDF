@@ -1,0 +1,1201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/jquery-3.6.0.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="check.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Information Form</title>
+</head>
+<body>
+    <style>
+html, body {
+    margin: 0;
+    padding: 0;
+    background-color: #000000;
+    overflow-y: auto;
+    font-family: "Roboto", sans-serif;
+}
+
+.star1 {
+            font-size: 30px;
+            cursor: pointer;
+            color: #ccc;
+        }
+        .star1.selected {
+            color: gold;
+        }
+
+        .star2 {
+            font-size: 30px;
+            cursor: pointer;
+            color: #ccc;
+        }
+        .star2.selected {
+            color: gold;
+        }
+        .star3 {
+            font-size: 30px;
+            cursor: pointer;
+            color: #ccc;
+        }
+        .star3.selected {
+            color: gold;
+        }
+
+        .star4 {
+            font-size: 30px;
+            cursor: pointer;
+            color: #ccc;
+        }
+        .star4.selected {
+            color: gold;
+        }
+        .star5 {
+            font-size: 30px;
+            cursor: pointer;
+            color: #ccc;
+        }
+        .star5.selected {
+            color: gold;
+        }
+
+        .star6 {
+            font-size: 30px;
+            cursor: pointer;
+            color: #ccc;
+        }
+        .star6.selected {
+            color: gold;
+        }
+
+        .star7 {
+            font-size: 30px;
+            cursor: pointer;
+            color: #ccc;
+        }
+        .star7.selected {
+            color: gold;
+        }
+
+        .star8 {
+            font-size: 30px;
+            cursor: pointer;
+            color: #ccc;
+        }
+        .star8.selected {
+            color: gold;
+        }
+
+.table1 {
+  border: none;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  text-align: center;
+}
+
+
+#myCanvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 0; /* انیمیشن به‌عنوان بک‌گراند */
+}
+#formy {
+
+    position: relative; /* اصلاح موقعیت فرم */
+            margin: 50px auto; /* افزودن فاصله به فرم */
+            max-width: 900px; /* تنظیم عرض فرم */
+            background-color: rgba(189, 23, 189, 0.6); /* پس‌زمینه بنفش شفاف */
+            backdrop-filter: blur(10px); /* محو کردن پشت فرم */
+            padding: 30px 50px;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+            color: white;
+            z-index: 1;   
+
+}
+
+#formy h1 {
+    margin-bottom: 20px;
+}
+
+#formy label {
+    display: block;
+    margin: 10px 0 5px;
+}
+
+#formy input, #formy select {
+    margin-bottom: 15px;
+    padding: 12px;
+    width: 100%;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 8px;
+    font-size: 16px;
+    background-color: rgba(255, 255, 255, 0.1); /* پس‌زمینه شفاف */
+    color: white; /* رنگ متن */
+    transition: border-color 0.3s, background-color 0.3s; /* انیمیشن برای تغییر */
+}
+
+#formy input:focus, #formy select:focus {
+    border-color: #6a0dad; /* رنگ حاشیه در حالت فوکوس */
+    background-color: rgba(255, 255, 255, 0.2); /* تغییر رنگ پس‌زمینه در حالت فوکوس */
+    outline: none; /* حذف حاشیه پیش‌فرض */
+}
+
+
+#formy button {
+    transition: 0.3s;
+    padding: 12px;
+    border-radius: 8px;
+    background-color: rgb(110, 76, 248);
+    color: white;
+    cursor: pointer;
+}
+
+#formy button:hover {
+    background-color: #a20b0b;
+    transition: 0.4s;
+ 
+}
+
+
+.button {
+  --h-button: 48px;
+  --w-button: 102px;
+  --round: 0.75rem;
+  cursor: pointer;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  transition: all 0.25s ease;
+  background: radial-gradient(
+      65.28% 65.28% at 50% 100%,
+      rgba(223, 113, 255, 0.8) 0%,
+      rgba(223, 113, 255, 0) 100%
+    ),
+    linear-gradient(0deg, #7a5af8, #7a5af8);
+  border-radius: var(--round);
+  border: none;
+  outline: none;
+  padding: 12px 18px;
+}
+.button::before,
+.button::after {
+  content: "";
+  position: absolute;
+  inset: var(--space);
+  transition: all 0.5s ease-in-out;
+  border-radius: calc(var(--round) - var(--space));
+  z-index: 0;
+}
+.button::before {
+  --space: 1px;
+  background: linear-gradient(
+    177.95deg,
+    rgba(255, 255, 255, 0.19) 0%,
+    rgba(255, 255, 255, 0) 100%
+  );
+}
+
+.button::after {
+  --space: 2px;
+  background: radial-gradient(
+      65.28% 65.28% at 50% 100%,
+      rgba(223, 113, 255, 0.8) 0%,
+      rgba(223, 113, 255, 0) 100%
+    ),
+    linear-gradient(0deg, #7a5af8, #7a5af8);
+}
+.button:active {
+  transform: scale(0.95);
+}
+
+.fold {
+  z-index: 1;
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 1rem;
+  width: 1rem;
+  display: inline-block;
+  transition: all 0.5s ease-in-out;
+  background: radial-gradient(
+    100% 75% at 55%,
+    rgba(223, 113, 255, 0.8) 0%,
+    rgba(223, 113, 255, 0) 100%
+  );
+  box-shadow: 0 0 3px black;
+  border-bottom-left-radius: 0.5rem;
+  border-top-right-radius: var(--round);
+}
+.fold::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 150%;
+  height: 150%;
+  transform: rotate(45deg) translateX(0%) translateY(-18px);
+  background-color: #e8e8e800;
+  pointer-events: none;
+}
+.button:hover .fold {
+  margin-top: -1rem;
+  margin-right: -1rem;
+}
+
+.points_wrapper {
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  position: absolute;
+  z-index: 1;
+}
+
+.points_wrapper .point {
+  bottom: -10px;
+  position: absolute;
+  animation: floating-points infinite ease-in-out;
+  pointer-events: none;
+  width: 2px;
+  height: 2px;
+  background-color: #fff;
+  border-radius: 9999px;
+}
+@keyframes floating-points {
+  0% {
+    transform: translateY(0);
+  }
+  85% {
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(-55px);
+    opacity: 0;
+  }
+}
+.points_wrapper .point:nth-child(1) {
+  left: 10%;
+  opacity: 1;
+  animation-duration: 2.35s;
+  animation-delay: 0.2s;
+}
+.points_wrapper .point:nth-child(2) {
+  left: 30%;
+  opacity: 0.7;
+  animation-duration: 2.5s;
+  animation-delay: 0.5s;
+}
+.points_wrapper .point:nth-child(3) {
+  left: 25%;
+  opacity: 0.8;
+  animation-duration: 2.2s;
+  animation-delay: 0.1s;
+}
+.points_wrapper .point:nth-child(4) {
+  left: 44%;
+  opacity: 0.6;
+  animation-duration: 2.05s;
+}
+.points_wrapper .point:nth-child(5) {
+  left: 50%;
+  opacity: 1;
+  animation-duration: 1.9s;
+}
+.points_wrapper .point:nth-child(6) {
+  left: 75%;
+  opacity: 0.5;
+  animation-duration: 1.5s;
+  animation-delay: 1.5s;
+}
+.points_wrapper .point:nth-child(7) {
+  left: 88%;
+  opacity: 0.9;
+  animation-duration: 2.2s;
+  animation-delay: 0.2s;
+}
+.points_wrapper .point:nth-child(8) {
+  left: 58%;
+  opacity: 0.8;
+  animation-duration: 2.25s;
+  animation-delay: 0.2s;
+}
+.points_wrapper .point:nth-child(9) {
+  left: 98%;
+  opacity: 0.6;
+  animation-duration: 2.6s;
+  animation-delay: 0.1s;
+}
+.points_wrapper .point:nth-child(10) {
+  left: 65%;
+  opacity: 1;
+  animation-duration: 2.5s;
+  animation-delay: 0.2s;
+}
+
+.inner {
+  z-index: 2;
+  gap: 6px;
+  position: relative;
+  width: 100%;
+  color: white;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.5;
+  transition: color 0.2s ease-in-out;
+}
+
+.inner svg.icon {
+  width: 18px;
+  height: 18px;
+  transition: fill 0.1s linear;
+}
+
+.button:focus svg.icon {
+  fill: white;
+}
+.button:hover svg.icon {
+  fill: transparent;
+  animation:
+    dasharray 1s linear forwards,
+    filled 0.1s linear forwards 0.95s;
+}
+@keyframes dasharray {
+  from {
+    stroke-dasharray: 0 0 0 0;
+  }
+  to {
+    stroke-dasharray: 68 68 0 0;
+  }
+}
+@keyframes filled {
+  to {
+    fill: white;
+  }
+}
+
+       .product-group {
+            margin-bottom: 15px;
+            padding: 10px;
+            background-color: rgba(255, 255, 255, 0);
+            border-radius: 5px;
+        }
+
+
+
+.addProduct {
+  cursor: pointer;
+  font-size: 1rem;
+  line-height: 1.5rem;
+  padding: 0.625rem 1rem;
+  color: rgb(242 242 242);
+  background-color: rgb(79 70 229);
+  background: linear-gradient(144deg, #af40ff, #5b42f3 50%, #00ddeb);
+  font-weight: 600;
+  border-radius: 0.5rem;
+  border-style: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.35s linear;
+}
+
+.addProduct:hover {
+  box-shadow: inset 0 5px 25px 0 #af40ff, inset 0 10px 15px 0px #5b42f3,
+    inset 0 5px 25px 0px #00ddeb;
+}
+.rate {
+    float: left;
+    height: 26px;
+    padding: 0 10px;
+        position: absolute;
+}
+.rate:not(:checked) > input {
+    position:absolute;
+    top:-9999px;
+}
+.rate:not(:checked) > label {
+    float:right;
+    width:1em;
+    overflow:hidden;
+    white-space:nowrap;
+    cursor:pointer;
+    font-size:30px;
+    color:#ccc;
+}
+.rate:not(:checked) > label:before {
+    content: '★ ';
+}
+.rate > input:checked ~ label {
+    color: #ffc700;    
+}
+.rate:not(:checked) > label:hover,
+.rate:not(:checked) > label:hover ~ label {
+    color: #deb217;  
+}
+.rate > input:checked + label:hover,
+.rate > input:checked + label:hover ~ label,
+.rate > input:checked ~ label:hover,
+.rate > input:checked ~ label:hover ~ label,
+.rate > label:hover ~ input:checked ~ label {
+    color: #c59b08;
+}
+.span1{
+  transition: 0.3s;
+    padding: 12px;
+    border-radius: 8px;
+    background-color: rgb(110, 76, 248);
+    color: white;
+    cursor: pointer;
+
+}
+.span1:hover{
+  background-color: #a20b0b;
+    transition: 0.4s;
+ 
+}
+.span2{
+  margin-top: 100px;
+  transition: 0.3s;
+    padding: 12px;
+    border-radius: 8px;
+    background-color: rgb(110, 76, 248);
+    color: white;
+    cursor: pointer;
+
+}
+.span2:hover{
+  background-color: #a20b0b;
+  transition: 0.4s;
+}
+
+.chill{
+  display: none;
+}
+    </style>
+    <canvas id="myCanvas"></canvas>
+    <div id="formy">
+      <table>
+        <th>
+          <td>        <h1>Informationsformular</h1>
+
+          </td>
+
+          <td><div style="min-width:150px"></div></td>
+          <td>
+
+        </td>
+        </th>
+
+      </table>
+        <form action="/generate-pdf" method="POST">
+            <label for="name">Vollständiger Name des Kunden</label>
+            <input type="text" id="name" name="name" placeholder="John Doe" required>
+            
+            <label for="age">Alter des Kunden</label>
+            <input type="number" id="age" name="age" placeholder="27" required>
+
+            <label for="year">Voraussichtliches Renteneintrittsjahr des Kunden</label>
+            <input type="number" id="year" name="year" placeholder="2024" required>
+
+
+
+            <label for="gender">Geschlecht des Kunden</label>
+            <select id="gender" name="gender" required>
+                <option value="">Wählen...</option>
+                <option value="Male">Männlich</option>
+                <option value="Female">Weiblich</option>
+            </select>
+            <label for="analysezum">Analyse zum</label>
+            <input type="text" id="analysezum" name="analysezum" placeholder="18.11.2024" required>
+            <label for="ansprechpartner">Vollständiger Name des Ansprechpartners</label>
+            <input type="text" id="ansprechpartner" name="ansprechpartner" placeholder="Antonio Völkerling">
+
+            <label for="telefon">Telefon des Kunden</label>
+            <input type="text" id="telefon" name="telefon" placeholder="09114779080" required>
+
+
+
+
+            <br>
+
+ <span class="span1" id="addButton5">Individuelle Ziele des Kunden</span>
+ <br>
+ <br>
+ <br>
+ <div id="container5"></div>
+<br>
+            
+
+
+
+<br>
+<br>
+<br>
+<span class="span1" id="addProduct16" class="btn btn-danger">+Produktempfehlungen zur Altersvorsorge</span>
+
+<br>
+<br>
+<br>
+<br>
+<span class="span1" id="addProduct23" class="btn btn-danger">+Produktempfehlungen zur Altersvorsorge bei Berufsunfähigkeit</span>
+<br>
+<br>
+<br>
+
+<br>
+<br>
+<div class="productContainer16" id="productContainer16"></div>
+<div id="productContainer23"></div>
+
+<br>
+<br>
+
+
+<hr>
+
+
+<!---++++++---------------------------------------------------------------------------------------------------------------------------------------++++++-->
+
+
+
+
+
+
+
+<!--<button class="btn btn-primary btn-sm" onclick="creatingInputsAndSaveButtons()">+</button> -->
+        <!-- <table>
+          <tr>
+            <td> -->
+              <input type="hidden" style="width: 0px;height: 0px;" id="rating1" name="rating1"></input>
+
+            <!-- </td>
+            <td> -->
+              <input type="hidden" style="width: 0px;height: 0px;" id="rating2" name="rating2"></input>
+
+            <!-- </td>
+            <td> -->
+              <input type="hidden" style="width: 0px;height: 0px;" id="rating3" name="rating3"></input>
+
+            <!-- </td>
+            <td> -->
+              <input type="hidden" style="width: 0px;height: 0px;" id="rating4" name="rating4"></input>
+
+            <!-- </td>
+            <td> -->
+              <input type="hidden" style="width: 0px;height: 0px;" id="rating5" name="rating5"></input>
+
+            <!-- </td>
+            <td> -->
+              <input type="hidden" style="width: 0px;height: 0px;" id="rating6" name="rating6"></input>
+
+            <!-- </td>
+            <td> -->
+              <input type="hidden" style="width: 0px;height: 0px;" id="rating7" name="rating7"></input>
+
+            <!-- </td>
+            <td> -->
+              <input type="hidden" style="width: 0px;height: 0px;" id="rating8" name="rating8"></input>
+              <!-- <input type="number" style="width: 0px;height: 0px;" id="x16" name="x16"></input>
+              <input type="number" style="width: 0px;height: 0px;" id="y16" name="y16"></input> -->
+
+  
+
+            <!-- </td>
+          </tr>
+        </table> -->
+
+<!--
+<table>
+<tr>
+  <td>
+    <label for="Altersvorsorge"> Altersvorsorge</label>
+
+  </td>
+  <td>
+    <ul class="list-inline" id="resultOfStars1">
+      <li class="list-inline-item">
+        <a   href="#"  id="star-11"  class="text-black text-decoration-none"  role="button"  >☆</a >
+      </li>
+      <li class="list-inline-item">
+        <a  href="#"  id="star-21" class="text-black text-decoration-none" role="button" >☆</a >
+      </li>
+      <li class="list-inline-item">
+        <a  href="#" id="star-31" class="text-black text-decoration-none" role="button" >☆</a >
+      </li>
+      <li class="list-inline-item">
+        <a href="#" id="star-41" class="text-black text-decoration-none"role="button">☆</a>
+      </li>
+      <li class="list-inline-item">
+        <a href="#" id="star-51" class="text-black text-decoration-none"role="button">☆</a>
+      </li>
+    </ul>
+
+
+  </td>
+</tr>
+<tr>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td></td>
+  <td></td>
+</tr>
+
+</table>
+
+-->
+  
+
+<br>
+<br>
+
+
+
+            <br>
+            <span class="span1" onclick="charts()" id="btn-submit" name="dokme">
+              Klicken Sie vor der PDF-Erstellung auf!
+            </span>
+        <br>
+        <br>
+        <br>
+
+                    <div style=" display: flex;justify-content: center;align-items: center;">
+            <button id="PdfGenButton" type="submit" class="button" onclick="pdf()">
+              <span class="fold"></span>
+            
+              <div class="points_wrapper">
+                <i class="point"></i>
+                <i class="point"></i>
+                <i class="point"></i>
+                <i class="point"></i>
+                <i class="point"></i>
+                <i class="point"></i>
+                <i class="point"></i>
+                <i class="point"></i>
+                <i class="point"></i>
+                <i class="point"></i>
+              </div>
+            
+              <span class="inner"
+                ><svg
+                  class="icon"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2.5"
+                >
+                  <polyline
+                    points="13.18 1.37 13.18 9.64 21.45 9.64 10.82 22.63 10.82 14.36 2.55 14.36 13.18 1.37"
+                  ></polyline></svg>
+                  Finanzplan generieren</span>
+            </button>
+            </div>
+                    </form>
+
+
+                
+        
+
+                        
+
+
+    </div>
+        
+        
+      </div>
+    </div>
+        
+      </div>
+    </div>
+
+    <script>
+
+
+document.getElementById("PdfGenButton").addEventListener("mousedown", function(event) {
+    event.stopImmediatePropagation(); // جلوگیری از پردازش فوری کلیک
+    event.preventDefault(); // جلوگیری از رفتار پیش‌فرض
+
+    let button = event.target;
+    
+    setTimeout(() => {
+        let newClickEvent = new MouseEvent("click", { bubbles: true, cancelable: true });
+        button.dispatchEvent(newClickEvent); // اجرای کلیک بعد از ۳ ثانیه
+    }, 3000);
+});
+
+document.getElementById("PdfGenButton").addEventListener("click", function() {
+    document.getElementById("message").innerText = "کلیک بعد از ۳ ثانیه انجام شد!";
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+
+
+
+/*
+پایان ۲۵ امیرعباس
+*/
+
+        
+    const canvas = document.getElementById('myCanvas');
+    const ctx = canvas.getContext('2d');
+
+    // تنظیم اندازه canvas
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    // کلاس برای ایجاد چندضلعی‌های توخالی
+    function Polygon(x, y, radius, sides, speed, dx, dy) {
+        this.x = x;
+        this.y = y;
+        this.radius = radius;
+        this.sides = sides;
+        this.angle = 0;
+        this.speed = speed;
+        this.dx = dx;
+        this.dy = dy;
+        this.vertices = [];
+
+        this.getVertices = function () {
+            this.vertices = [];
+            for (let i = 0; i < this.sides; i++) {
+                const angle = (i * 2 * Math.PI) / this.sides + this.angle;
+                const px = this.x + this.radius * Math.cos(angle);
+                const py = this.y + this.radius * Math.sin(angle);
+                this.vertices.push({ x: px, y: py });
+            }
+            return this.vertices;
+        };
+
+        this.update = function () {
+            if (this.x + this.radius > canvas.width || this.x - this.radius < 0) {
+                this.dx = -this.dx;
+            }
+            if (this.y + this.radius > canvas.height || this.y - this.radius < 0) {
+                this.dy = -this.dy;
+            }
+            this.x += this.dx;
+            this.y += this.dy;
+        };
+    }
+
+    let polygons = [];
+    const isMobile = window.innerWidth <= 768; // بررسی موبایل بودن
+    const numPolygons = isMobile ? 4 : 8; // تغییر تعداد بر اساس دستگاه
+
+    for (let i = 0; i < numPolygons; i++) {
+        const sides = Math.floor(Math.random() * 8) + 5;
+        const radius = Math.random() * 200 + 200;
+        const x = Math.random() * (canvas.width - radius * 2) + radius;
+        const y = Math.random() * (canvas.height - radius * 2) + radius;
+        const speed = 0.03;
+        const dx = Math.random() * 3 + 1;
+        const dy = Math.random() * 3 + 1;
+        polygons.push(new Polygon(x, y, radius, sides, speed, dx, dy));
+    }
+
+    let colorTransition = 0;
+
+    function drawConnections() {
+        const maxDistance = 300;
+        colorTransition += 0.01;
+        if (colorTransition > 1) colorTransition = 0;
+
+        for (let i = 0; i < polygons.length; i++) {
+            const vertices1 = polygons[i].getVertices();
+            for (let j = i + 1; j < polygons.length; j++) {
+                const vertices2 = polygons[j].getVertices();
+
+                for (let v1 of vertices1) {
+                    for (let v2 of vertices2) {
+                        const dist = Math.hypot(v1.x - v2.x, v1.y - v2.y);
+                        if (dist < maxDistance) {
+                            const purpleShade = Math.random() * 100 + 150;
+                            const color = `rgba(${purpleShade}, 0, ${purpleShade}, 0.5)`;
+                            ctx.beginPath();
+                            ctx.moveTo(v1.x, v1.y);
+                            ctx.lineTo(v2.x, v2.y);
+                            ctx.strokeStyle = color;
+                            ctx.lineWidth = 2;
+                            ctx.stroke();
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    function animate() {
+        requestAnimationFrame(animate);
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        for (let i = 0; i < polygons.length; i++) {
+            polygons[i].update();
+        }
+        drawConnections();
+    }
+
+    animate();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    const productContainer = document.getElementById('productContainer');
+
+        
+
+
+
+
+
+
+
+        let selectedRating1 = 0;
+
+        // انتخاب ستاره‌ها
+        const stars1 = document.querySelectorAll('.star1');
+        stars1.forEach(star1 => {
+            star1.addEventListener('click', () => {
+                selectedRating1 = parseInt(star1.getAttribute('data-value'));
+                stars1.forEach(s => s.classList.remove('selected'));
+                for (let i = 0; i < selectedRating1; i++) {
+                    stars1[i].classList.add('selected');
+                }
+            });
+
+        });
+        // ارسال امتیاز به سرور
+      //  document.getElementById('submit5').addEventListener('click', () => {
+      //          fetch('/submit5-rating1', {
+      //              method: 'POST',
+      //              headers: {
+      //                  'Content-Type': 'application/json',
+      //              },
+      //              body: JSON.stringify(  selectedRating1 ),
+           //     });
+      //  });
+
+
+
+
+        let selectedRating2 = 0;
+
+// انتخاب ستاره‌ها
+const stars2 = document.querySelectorAll('.star2');
+stars2.forEach(star2 => {
+    star2.addEventListener('click', () => {
+        selectedRating2 = parseInt(star2.getAttribute('data-value'));
+        stars2.forEach(s => s.classList.remove('selected'));
+        for (let i = 0; i < selectedRating2; i++) {
+            stars2[i].classList.add('selected');
+        }
+    });
+});
+
+// ارسال امتیاز به سرور
+// document.getElementById('submit5').addEventListener('click', () => {
+//         fetch('/submit5-rating2', {
+//             method: 'POST',
+//             headers: {
+//                 'Content-Type': 'application/json',
+//             },
+//             body: JSON.stringify( selectedRating2 ),
+//         });
+// });
+
+
+
+let selectedRating3 = 0;
+
+// انتخاب ستاره‌ها
+const stars3 = document.querySelectorAll('.star3');
+stars3.forEach(star3 => {
+    star3.addEventListener('click', () => {
+        selectedRating3 = parseInt(star3.getAttribute('data-value'));
+        stars3.forEach(s => s.classList.remove('selected'));
+        for (let i = 0; i < selectedRating3; i++) {
+            stars3[i].classList.add('selected');
+        }
+    });
+});
+
+// ارسال امتیاز به سرور
+// document.getElementById('submit5').addEventListener('click', () => {
+//         fetch('/submit5-rating3', {
+//             method: 'POST',
+//             headers: {
+//                 'Content-Type': 'application/json',
+//             },
+//             body: JSON.stringify( selectedRating3),
+//         });
+// });
+
+
+let selectedRating4 = 0;
+
+// انتخاب ستاره‌ها
+const stars4 = document.querySelectorAll('.star4');
+stars4.forEach(star4 => {
+    star4.addEventListener('click', () => {
+        selectedRating4 = parseInt(star4.getAttribute('data-value'));
+        stars4.forEach(s => s.classList.remove('selected'));
+        for (let i = 0; i < selectedRating4; i++) {
+            stars4[i].classList.add('selected');
+        }
+    });
+});
+
+// ارسال امتیاز به سرور
+// document.getElementById('submit5').addEventListener('click', () => {
+//         fetch('/submit5-rating4', {
+//             method: 'POST',
+//             headers: {
+//                 'Content-Type': 'application/json',
+//             },
+//             body: JSON.stringify( selectedRating4 ),
+//         });
+// });
+
+let selectedRating5 = 0;
+
+// انتخاب ستاره‌ها
+const stars5 = document.querySelectorAll('.star5');
+stars5.forEach(star5 => {
+    star5.addEventListener('click', () => {
+        selectedRating5 = parseInt(star5.getAttribute('data-value'));
+        stars5.forEach(s => s.classList.remove('selected'));
+        for (let i = 0; i < selectedRating5; i++) {
+            stars5[i].classList.add('selected');
+        }
+    });
+});
+
+// ارسال امتیاز به سرور
+// document.getElementById('submit5').addEventListener('click', () => {
+//         fetch('/submit5-rating5', {
+//             method: 'POST',
+//             headers: {
+//                 'Content-Type': 'application/json',
+//             },
+//             body: JSON.stringify( selectedRating5 ),
+//         });
+// });
+
+
+
+
+
+let selectedRating6 = 0;
+
+// انتخاب ستاره‌ها
+const stars6 = document.querySelectorAll('.star6');
+stars6.forEach(star6 => {
+    star6.addEventListener('click', () => {
+        selectedRating6 = parseInt(star6.getAttribute('data-value'));
+        stars6.forEach(s => s.classList.remove('selected'));
+        for (let i = 0; i < selectedRating6; i++) {
+            stars6[i].classList.add('selected');
+        }
+    });
+});
+
+// // ارسال امتیاز به سرور
+// document.getElementById('submit5').addEventListener('click', () => {
+//         fetch('/submit5-rating6', {
+//             method: 'POST',
+//             headers: {
+//                 'Content-Type': 'application/json',
+//             },
+//             body: JSON.stringify(  selectedRating6 ),
+//         });
+// });
+
+
+
+let selectedRating7 = 0;
+
+// انتخاب ستاره‌ها
+const stars7 = document.querySelectorAll('.star7');
+stars7.forEach(star7 => {
+    star7.addEventListener('click', () => {
+        selectedRating7 = parseInt(star7.getAttribute('data-value'));
+        stars7.forEach(s => s.classList.remove('selected'));
+        for (let i = 0; i < selectedRating7; i++) {
+            stars7[i].classList.add('selected');
+        }
+    });
+});
+
+// ارسال امتیاز به سرور
+// document.getElementById('submit5').addEventListener('click', () => {
+//         fetch('/submit5-rating7', {
+//             method: 'POST',
+//             headers: {
+//                 'Content-Type': 'application/json',
+//             },
+//             body: JSON.stringify( selectedRating7 ),
+//         });
+// });
+
+
+
+let selectedRating8 = 0;
+
+// انتخاب ستاره‌ها
+const stars8 = document.querySelectorAll('.star8');
+stars8.forEach(star8 => {
+    star8.addEventListener('click', () => {
+        selectedRating8 = parseInt(star8.getAttribute('data-value'));
+        stars8.forEach(s => s.classList.remove('selected'));
+        for (let i = 0; i < selectedRating8; i++) {
+            stars8[i].classList.add('selected');
+        }
+    });
+});
+
+// ارسال امتیاز به سرور
+// document.getElementById('submit5').addEventListener('click', () => {
+//         fetch('/submit5-rating8', {
+//             method: 'POST',
+//             headers: {
+//                 'Content-Type': 'application/json',
+//             },
+//             body: JSON.stringify( selectedRating8 ),
+//         });
+
+// });
+
+
+
+
+
+
+
+</script>
+</body>
+</html>
